@@ -1,7 +1,7 @@
 # Query declared again, adding only the part of the schema that relevant
 type Query {
-  getGame(id: ID!): Game
-  getGames: [Game]
+  Game(id: ID!): Game
+  Games: [Game]
 }
 
 type Game {
@@ -12,7 +12,8 @@ type Game {
 }
 # Entry point for mutations
 type Mutation {
-  addGame(name: String!, description: String!, author: String!): Game!,
+  addGame(name: String!, description: String!, author: String!): Game!
+  updateGame(id: String!, description: String!, author: String!): Game!
   deleteGame(id: ID!): String
 }
 
