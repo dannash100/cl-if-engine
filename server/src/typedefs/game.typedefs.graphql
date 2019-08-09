@@ -1,0 +1,25 @@
+input GameInput {
+  name: String!
+  description: String!
+  author: String!
+}
+
+type Game {
+  id: ID!
+  name: String!
+  description: String!
+  author: String!
+  scenes: [Scene!]
+}
+
+type Query {
+  getGame(id: ID!): Game
+  getGames: [Game]
+}
+
+type Mutation {
+  addGame(input: GameInput): Game!,
+  updateGame(id: ID!, input: GameInput): Game!  
+  deleteGame(id: ID!): String
+}
+
