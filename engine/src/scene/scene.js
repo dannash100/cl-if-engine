@@ -1,12 +1,4 @@
-import { getEdgePos, mapSize } from "./scene.config";
-
-// Draw center - check nodes and draw lenghts - Then check those nodes and draw length with
-
-
-// const checkBoundsY = (y, matrix) => matrix[0].length > y
-// const checkBoundsX = (x, matrix) => matrix.length > x
-
-// given an index and a specified length - return from to index of 
+import { getEdgePos, getDirOffset, mapSize } from "./scene.config";
 
 export const sliceIdxs = i => [i - (mapSize - 1) / 2, i + 1 + (mapSize - 1) / 2]
 
@@ -21,8 +13,7 @@ export const getXY = element => matrix => ({
 const getPlayer = getXY("P");
 
 /**
- * Resize matrix if requested begin index / end index are out of bounds.
- * ensure that the
+ * Resize matrix if requested slice indexes are out of bounds.
  * @param {Number} begin index to begin slice
  * @param {Number} end index to end slice
  * @param {Function} padFn element generator function to generate a given number of elements.
@@ -42,8 +33,16 @@ export const getPlayerMap = matrix => {
   return resizedMatrix
     .slice(...sliceIdxs(p.y))
     .map(row => row.slice(...sliceIdxs(p.x)));
-
 };
+
+export const getPathCoords = (direction, edgeLen = 1) => {
+  const { x, y } = getDirOffset(direction);
+  return [...Array(edgeLen).keys()].map(i => ({ x: x + x * i, y: y + y * i }));
+};
+
+// Only draw map once - and redraw if map changes - otherwise just zoom in on player
+// Find starting scene - then draw recursively - untill 
+//
 
 // once a new scene is created - find out which x and y are 2 away from out of bounds
 
