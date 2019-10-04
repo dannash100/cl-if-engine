@@ -1,0 +1,37 @@
+<<<<<<< HEAD:server/src/typedefs/game.typedefs.graphql
+input GameInput {
+  name: String!
+  description: String!
+  author: String!
+=======
+# Query declared again, adding only the part of the schema that relevant
+type Query {
+  Game(id: ID!): Game
+  Games: [Game]
+>>>>>>> c380540850a7853c223381576beec9e0b25e8ff4:src/typedefs/game.typedefs.graphql
+}
+
+type Game {
+  id: ID!
+  name: String!
+  description: String!
+  author: String!
+  scenes: [Scene!]
+}
+
+type Query {
+  getGame(id: ID!): Game
+  getGames: [Game]
+}
+
+type Mutation {
+<<<<<<< HEAD:server/src/typedefs/game.typedefs.graphql
+  addGame(input: GameInput): Game!,
+  updateGame(id: ID!, input: GameInput): Game!  
+=======
+  addGame(name: String!, description: String!, author: String!): Game!
+  updateGame(id: String!, description: String!, author: String!): Game!
+>>>>>>> c380540850a7853c223381576beec9e0b25e8ff4:src/typedefs/game.typedefs.graphql
+  deleteGame(id: ID!): String
+}
+

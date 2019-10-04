@@ -1,0 +1,21 @@
+input SceneInput {
+  name: String!
+  gameId: ID!
+}
+
+type Query {
+  getScene(id: ID!): Scene
+  getScenes: [Scene]
+}
+
+
+type Scene {
+  id: ID!
+  name: String!
+  gameId: ID!
+}
+
+type Mutation {
+  addScene(input: SceneInput): Scene!
+}
+
