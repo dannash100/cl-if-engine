@@ -25,13 +25,13 @@ const getVerbRegex = verb => new RegExp(`^${verb}\\b`);
 
 // const regex = new RegExp(`(${getVerbRegex(verb)})(.+)(${getPrepRegex(prep)}?)(.+)`)
 
-const validPrepositon = (verb, prep) =>
-  actionsToPrepositons[
-    prep ||
-      Object.keys(prepAlias).find(rootPrep =>
-        prepAlias[rootPrep].includes(prep)
-      )
-  ].includes(verb);
+// const validPrepositon = (verb, prep) =>
+//   actionsToPrepositons[
+//     prep ||
+//       Object.keys(prepAlias).find(rootPrep =>
+//         prepAlias[rootPrep].includes(prep)
+//       )
+//   ].includes(verb);
 
 /**
  *
