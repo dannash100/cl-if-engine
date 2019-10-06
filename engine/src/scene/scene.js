@@ -1,8 +1,8 @@
 import { getEdgePos, getDirOffset, mapSize } from "./scene.config";
 
-export const sliceIdxs = i => [i - (mapSize - 1) / 2, i + 1 + (mapSize - 1) / 2]
+export const sliceIdxs = i => [i - (mapSize - 1) / 2, i + 1 + (mapSize - 1) / 2];
 
-export const emptyArray = len => Array(len).fill(0)
+export const emptyArray = len => Array(len).fill(0);
 export const emptyMatrix = len => emptyArray(len).map(() => emptyArray(len));
 
 export const getXY = element => matrix => ({

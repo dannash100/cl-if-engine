@@ -16,20 +16,20 @@ export const allPostsQuery = gql`
       count
     }
   }
-`
+`;
 export const allPostsQueryVars = {
   skip: 0,
   first: 10
-}
+};
 
 export default function PostList () {
   return (
     <Query query={allPostsQuery} variables={allPostsQueryVars}>
       {({ loading, error, data: { allPosts, _allPostsMeta }, fetchMore }) => {
-        if (error) return <ErrorMessage message='Error loading posts.' />
-        if (loading) return <div>Loading</div>
+        if (error) return <ErrorMessage message='Error loading posts.' />;
+        if (loading) return <div>Loading</div>;
 
-        const areMorePosts = allPosts.length < _allPostsMeta.count
+        const areMorePosts = allPosts.length < _allPostsMeta.count;
         return (
           <section>
             <ul>

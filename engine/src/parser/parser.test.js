@@ -1,4 +1,5 @@
-import {parseCommand} from './parser'
+import {parseCommand, splitAtVerb} from './parser'
+
 
 /**
  * n
@@ -41,13 +42,14 @@ Adjectives and adverbs are called modifiers -
   mod 
 */
 
-tests = {
-  ['Get the blue key'] : {verb: 'get', target: ['blue', 'key']},
-  ['get The key'] : {verb: 'get', target: 'key'},
-  ['Open door with key'] : {verb: 'open', target: 'door', case:}
-}
+// tests = {
+//   ['Get the blue key'] : {verb: 'get', target: ['blue', 'key']},
+//   ['get The key'] : {verb: 'get', target: 'key'},
+//   ['Open door with key'] : {verb: 'open', target: 'door', case:}
+// };
 
 describe('Parser understands user input', () => {
-  
-
-})
+  console.log(parseCommand('pickup the dog'))
+  console.log(parseCommand('get the dog'))
+  console.log(parseCommand('use dog with cat'))
+});

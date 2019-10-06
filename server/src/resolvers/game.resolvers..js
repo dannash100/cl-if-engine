@@ -4,14 +4,14 @@ export default {
   Query: {
     getGames: () => Game.find().populate('scenes'),
     getGame: async (_, {id}) => {
-      const result = await Game.findById(id)
+      const result = await Game.findById(id);
       return result
     }
   },
   Mutation: {
     addGame: async (_, {input}) => {
-      const game = new Game(input)
-      await game.save()
+      const game = new Game(input);
+      await game.save();
       return game
     },
     updateGame: async (_, {id, input}) => {
@@ -21,11 +21,11 @@ export default {
         input,
         {new: true}
       )
-      .save()
+      .save();
       return result
     },
     deleteGame: async (_, {id}) => {
-      await Game.findByIdAndRemove(id)
+      await Game.findByIdAndRemove(id);
       return "Game deleted"
     }
   }

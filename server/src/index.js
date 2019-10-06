@@ -3,12 +3,12 @@ import typeDefs from './typeDefs'
 import resolvers from './resolvers'
 import db from './db'
 
-const options = { port: 4004 }
+const options = { port: 4004 };
 
 const server = new GraphQLServer({
   typeDefs,
   resolvers,
-})	
+});
 
 db.connection.once("open", () => {
 	server
@@ -16,5 +16,5 @@ db.connection.once("open", () => {
 			console.log(`Server is running ⚡ on localhost:${options.port}`),
 		)	
 		.catch(err => console.error('connection Error', err))	
-})
+});
 

@@ -32,12 +32,12 @@ export default function Submit () {
 }
 
 function handleSubmit (event, client) {
-  event.preventDefault()
-  const form = event.target
-  const formData = new window.FormData(form)
-  const title = formData.get('title')
-  const url = formData.get('url')
-  form.reset()
+  event.preventDefault();
+  const form = event.target;
+  const formData = new window.FormData(form);
+  const title = formData.get('title');
+  const url = formData.get('url');
+  form.reset();
 
   client.mutate({
     mutation: gql`
@@ -56,7 +56,7 @@ function handleSubmit (event, client) {
       const data = proxy.readQuery({
         query: allPostsQuery,
         variables: allPostsQueryVars
-      })
+      });
       proxy.writeQuery({
         query: allPostsQuery,
         data: {

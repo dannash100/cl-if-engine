@@ -7,11 +7,11 @@ export default {
   },
   Mutation: {
     addScene: async (_, {input}) => {
-      const scene = await new Scene(input).save()
+      const scene = await new Scene(input).save();
       const result = await Game.findOneAndUpdate(
         { _id: input.gameId }, 
         { $push: { scenes: scene } }
-      )
+      );
       return scene
     }
   }
