@@ -48,8 +48,38 @@ Adjectives and adverbs are called modifiers -
 //   ['Open door with key'] : {verb: 'open', target: 'door', case:}
 // };
 
+const tests = {
+  'Get the good dog': {
+    verb: 'get',
+    nouns: 'good dog',
+    prepositions: undefined,
+    priority: ['world']
+  },
+  'Pickup the Dog': {
+    verb: 'get',
+    nouns: 'dog',
+    prepositions: undefined,
+    priority: ['world']
+  },
+  'Take the dog': {
+    verb: 'get',
+    nouns: 'dog',
+    prepositions: undefined,
+    priority: ['world']
+  }
+}
+
+
 describe('Parser understands user input', () => {
-  console.log(parseCommand('pickup the dog'))
-  console.log(parseCommand('get the dog'))
-  console.log(parseCommand('use dog with cat'))
+  it('understands basic get commands with aliases', () => {
+    Object.keys(tests).forEach(test => {
+      expect(parseCommand(test)).toEqual(tests[test])
+    })
+  })
+  it('understands special cases', () => {
+    console.log(parseCommand('Turn handle clockwise'))
+    console.log(parseCommand('go up'))
+    console.log(parseCommand('go s e'))
+  })
+
 });

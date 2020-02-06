@@ -1,5 +1,12 @@
-import { prepositions, getPriorities, aliases } from "./parser";
-import { actionsToPrepositons } from "./parser.config";
+import {
+  prepositions,
+  getPriorities,
+  verbAliases,
+  getPrepRegex,
+  getVerbRegex,
+  getSplitAheadRegex,
+  parseByVerb
+} from "./parser.config";
 
 const clean = str =>
   str
@@ -12,26 +19,16 @@ export const parseCommand = cmd => {
   const preposition = prepositions.find(prep =>
     getPrepRegex(prep).test(remaining)
   );
+  const nouns = preposition
+    ? remaining.split(preposition).map(s => s.trim())
+    : remaining;
   return {
     verb,
-    nouns: preposition ? remaining.split(preposition) : remaining,
+    ...parseByVerb(verb, nouns),
     preposition,
-    priority: getPriorities(verb)
+    priority: getPriorities(verb, Boolean(preposition))
   };
 };
-
-const getPrepRegex = prep => new RegExp(`\\b${prep}\\b`);
-const getVerbRegex = verb => new RegExp(`^${verb}\\b`);
-
-// const regex = new RegExp(`(${getVerbRegex(verb)})(.+)(${getPrepRegex(prep)}?)(.+)`)
-
-// const validPrepositon = (verb, prep) =>
-//   actionsToPrepositons[
-//     prep ||
-//       Object.keys(prepAlias).find(rootPrep =>
-//         prepAlias[rootPrep].includes(prep)
-//       )
-//   ].includes(verb);
 
 /**
  *
@@ -41,14 +38,14 @@ const getVerbRegex = verb => new RegExp(`^${verb}\\b`);
  * @property {String} remaining remaining words
  */
 export const splitAtVerb = cmd =>
-  Object.keys(aliases).reduce((split, key) => {
-    const match = aliases[key]
+  Object.keys(verbAliases).reduce((split, key) => {
+    const match = verbAliases[key]
       .concat(key)
       .find(verb => getVerbRegex(verb).test(cmd));
     return match && !split.length
       ? cmd
           .replace(getVerbRegex(match), key)
-          .split(new RegExp(`(?<=${key})\\s`))
-          .map(str => str.trim())
+          .split(getSplitAheadRegex(key))
+          .map(s => s.trim())
       : split;
   }, []);

@@ -41,28 +41,28 @@ export const getDirOffset = direction =>
       y: -1
     },
     N: {
-      x: -1,
-      y: 0
+      x: 0,
+      y: -1
     },
     NE: {
-      x: -1,
-      y: 1
+      x: 1,
+      y: -1
     },
     E: {
       x: 1,
-      y: -1
+      y: 0
     },
     W: {
-      x: 0,
-      y: 1
+      x: -1,
+      y: 0
     },
     SW: {
-      x: 1,
-      y: -1
+      x: -1,
+      y: 1
     },
     S: {
-      x: 1,
-      y: 0
+      x: 0,
+      y: 1
     },
     SE: {
       x: 1,
@@ -80,6 +80,7 @@ export const getPathCoords = (direction, edgeLen = 1) => {
   const { x, y } = getDirOffset(direction);
   return [...Array(edgeLen).keys()].map(i => ({ x: x + x * i, y: y + y * i }));
 };
+
 
 export const getEdgeEl = direction =>
   ({

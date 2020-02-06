@@ -4,6 +4,8 @@ import {
   emptyMatrix,
   getXY,
   resizeOob,
+  createMap,
+  padToTarget,
   getPlayerMap
 } from "./scene";
 
@@ -34,14 +36,14 @@ describe("emptyMatrix", () => {
     isFunc(emptyMatrix);
   });
   it("should return a 2d array.", () => {
-    const matrix = emptyMatrix(4);
+    const matrix = emptyMatrix(4,4);
     expect(matrix).toBeDefined();
     expect(Array.isArray(matrix)).toBe(true);
     matrix.forEach(row => expect(Array.isArray(row)).toBe(true));
   });
   it("should return a symetrical matrix of the dimension specified", () => {
     [0, 1, 10, 20, 40, 60].forEach(n => {
-      const matrix = emptyMatrix(n);
+      const matrix = emptyMatrix(n,n);
       expect(matrix).toHaveLength(n);
       matrix.forEach(row => expect(row).toHaveLength(n));
     });
@@ -71,7 +73,7 @@ describe("sliceIdxs", () => {
 
 describe("getXY", () => {
   const getMatrixWithPlayer = (size, x, y) => {
-    const matrix = emptyMatrix(size);
+    const matrix = emptyMatrix(size,size);
     matrix[y][x] = "P";
     return matrix;
   };
@@ -120,7 +122,12 @@ describe("resizeOob", () => {
   });
   describe("Inner function", () => {
     const testArr = ["0", "0", "0", "0", "0"];
-    const tests = [[0, 14], [2, 8], [-3, 2], [4, 6]];
+    const tests = [
+      [0, 14],
+      [2, 8],
+      [-3, 2],
+      [4, 6]
+    ];
     // Resize array so a slice from 0 to 7 is possible
 
     const getResult = sliceXY => {
@@ -146,27 +153,129 @@ describe("resizeOob", () => {
   });
 });
 
-describe("resizeOob", () => {
-  const scenes = [
+describe("createMap", () => {
+  const testMap = createMap([
     {
-      id: 1,
+      id: 'P',
       paths: {
-        N: 2
+        N: 2,
+        S: 5,
+        E: 0,
+        W: 0,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
       }
     },
     {
       id: 2,
       paths: {
-        S: 1,
-        E: 3
+        N: 0,
+        S: 'P',
+        E: 3,
+        W: 0,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
       }
     },
     {
       id: 3,
       paths: {
-        N: 1,
-        W: 2
+        N: 0,
+        S: 4,
+        E: 0,
+        W: 2,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
+      }
+    },
+    {
+      id: 4,
+      paths: {
+        N: 3,
+        S: 6,
+        E: 0,
+        W: 0,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
+      }
+    },
+    {
+      id: 5,
+      paths: {
+        N: 'P',
+        S: 0,
+        E: 6,
+        W: 0,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
+      }
+    },
+    {
+      id: 6,
+      paths: {
+        N: 4,
+        S: 0,
+        E: 0,
+        W: 5,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
       }
     }
-  ];
+  ]);
+  console.log(testMap)
+  // console.log(padToTarget(-2, -2, [[0,0,0],[0,0,0],[0,0,0]]))
 });
+
+// const scenes = [
+//   {
+//     id: 1,
+//     paths: {
+//       n: 2,
+//       s: 0,
+//       e: 0,
+//       w: 0,
+//       ne: 0,
+//       nw: 0,
+//       se: 0,
+//       sw: 0
+//     }
+//   },
+//   {
+//     id: 2,
+//     paths: {
+//       n: 0,
+//       s: 1,
+//       e: 3,
+//       w: 0,
+//       ne: 0,
+//       nw: 0,
+//       se: 0,
+//       sw: 0
+//     }
+//   },
+//   {
+//     id: 3,
+//     paths: {
+//       n: 0,
+//       s: 0,
+//       e: 0,
+//       w: 2,
+//       ne: 0,
+//       nw: 0,
+//       se: 0,
+//       sw: 0
+//     }
+//   }
+// ];
