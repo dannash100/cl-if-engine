@@ -61,13 +61,12 @@ describe("sliceIdxs", () => {
     expect(indxs).toHaveLength(2);
     expect(indxs.map(indx => typeof indx)).toEqual(["number", "number"]);
   });
-  it("Should slice array to mapSize given the index of the middle element", () => {
-    const indxs = sliceIdxs(4);
-    expect(
-      Array(mapSize * 2)
-        .fill(0)
-        .slice(...indxs)
-    ).toHaveLength(mapSize);
+  it("should always return indexes with difference equal to map size", () => {
+    [...Array(mapSize).keys()].forEach(i => {
+      const [from, to] = sliceIdxs(i)
+      const difference = to - from
+      expect(difference).toBe(mapSize)
+    })
   });
 });
 
@@ -225,8 +224,34 @@ describe("createMap", () => {
       paths: {
         N: 4,
         S: 0,
-        E: 0,
+        E: 7,
         W: 5,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
+      }
+    },
+    {
+      id: 7,
+      paths: {
+        N: 0,
+        S: 0,
+        E: 8,
+        W: 6,
+        NE: 0,
+        NW: 0,
+        SE: 0,
+        SW: 0
+      }
+    },
+    {
+      id: 8,
+      paths: {
+        N: 0,
+        S: 0,
+        E: 0,
+        W: 7,
         NE: 0,
         NW: 0,
         SE: 0,
@@ -234,7 +259,6 @@ describe("createMap", () => {
       }
     }
   ]);
-  console.log(testMap)
   // console.log(padToTarget(-2, -2, [[0,0,0],[0,0,0],[0,0,0]]))
 });
 

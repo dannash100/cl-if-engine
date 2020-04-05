@@ -2,6 +2,7 @@ import {
   prepositions,
   getPriorities,
   verbAliases,
+  keywordAliases,
   getPrepRegex,
   getVerbRegex,
   getSplitAheadRegex,
@@ -15,20 +16,32 @@ const clean = str =>
     .replace(/\bthe\b/g, "");
 
 export const parseCommand = cmd => {
-  const [verb, remaining] = splitAtVerb(clean(cmd));
+  const cleanCmd = clean(cmd);
+  const keyword = checkForKeyword(cleanCmd);
+  if (keyword) return { keyword };
+  const [verb, remaining] = splitAtVerb(cleanCmd);
   const preposition = prepositions.find(prep =>
     getPrepRegex(prep).test(remaining)
   );
-  const nouns = preposition
-    ? remaining.split(preposition).map(s => s.trim())
-    : remaining;
+  let nouns;
+  if (preposition) {
+    const [before, after] = remaining.split(preposition);
+    nouns = before ? [before, after].map(s => s.trim()) : after.trim();
+  } else {
+    nouns = remaining;
+  }
   return {
     verb,
     ...parseByVerb(verb, nouns),
     preposition,
-    priority: getPriorities(verb, Boolean(preposition))
+    priority: getPriorities(verb, preposition, Array.isArray(nouns))
   };
 };
+
+export const checkForKeyword = cmd =>
+  Object.keys(keywordAliases).find(keyword =>
+    [keyword, ...keywordAliases[keyword]].includes(cmd)
+  );
 
 /**
  *

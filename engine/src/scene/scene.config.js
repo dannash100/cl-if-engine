@@ -94,4 +94,4 @@ export const getEdgeEl = direction =>
     SE: "\\"
   }[direction]);
 
-export const mapSize = 9;
+export const mapSize = 5;

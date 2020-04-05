@@ -36,7 +36,9 @@ export const actionsToPrepositions = {
   in: ["throw", "put", "drop"],
   at: ["throw"],
   under: ["throw", "put", "drop"],
-  from: ["remove", "get", "steal"]
+  from: ["remove", "get", "steal"],
+  about: ["tell"],
+  to: [],
 };
 
 export const prepositions = Object.values(prepAliases).reduce(
@@ -53,6 +55,11 @@ export const verbAliases = {
   talk: ["talk to", "talk with"],
   sleep: ["go to sleep"],
   throw: ["toss"],
+  combine: ["join"],
+  show: [],
+  tell: ["warn"],
+  steal: [],
+  jump: [],
   open: [],
   close: ["shut"],
   drop: [],
@@ -123,6 +130,7 @@ const CHARACTER = "character";
 const TIME = "time";
 const KNOWLEDGE = "knowledge";
 const TOPIC = "topic";
+const REQUEST = "request";
 
 // If one word - check commands or bust - or verb what?
 
@@ -157,18 +165,20 @@ const interactionPriorities = {
     [INVENTORY, WORLD]
   ], // consider sub item
   get: [[WORLD, INVENTORY]],
-  tell: [
-    [CHARACTER, "about", KNOWLEDGE],
-    [CHARACTER, "to", "jump etc"]
-  ],
-  show: [
-    [INVENTORY, "to", CHARACTER],
-    [CHARACTER, INVENTORY]
-  ], // show _character_ item - show _item_ to _character_
-  ask: [
-    [CHARACTER, "about", TOPIC],
-    [CHARACTER, "to", "give you diamond"]
-  ],
+  tell: {
+    about: [CHARACTER, KNOWLEDGE],
+    to: [CHARACTER, REQUEST],
+    default: [CHARACTER, KNOWLEDGE]
+  },
+  show: {
+    to: [INVENTORY, CHARACTER],
+    default: [CHARACTER, INVENTORY]
+  }, // show _character_ item - show _item_ to _character_
+  ask: {
+    about: [CHARACTER, TOPIC],
+    to: [CHARACTER, REQUEST],
+    default: [CHARACTER, TOPIC]
+  },
   replace: [[WORLD, INVENTORY]],
   throw: [[INVENTORY, WORLD]],
   drop: [[INVENTORY, WORLD]],
@@ -184,13 +194,19 @@ const interactionPriorities = {
     [CHARACTER, INVENTORY],
     [WORLD, INVENTORY]
   ],
+  steal: [[WORLD, CHARACTER]],
   default: [
     [WORLD, INVENTORY],
     [INVENTORY, INVENTORY]
   ]
 };
 
-export const getPriorities = (verb, isPrep) => {
-  const priorities = isPrep ? interactionPriorities : actionPriorities;
-  return priorities[verb] || priorities["default"];
+export const getPriorities = (verb, prep, isInteraction) => {
+  const priorityDict = isInteraction ? interactionPriorities : actionPriorities 
+  const priorities = priorityDict[verb] || priorityDict.default;
+  if (Array.isArray(priorities)) {
+    return priorities;
+  } else {
+    return priorities[prep] || priorities.default;
+  }
 };
